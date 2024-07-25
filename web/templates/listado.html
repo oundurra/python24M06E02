@@ -1,0 +1,37 @@
+{% include 'basehead.html' %}
+
+<body>
+    {% include 'menu.html' %}
+    <h1>Listado de Tickets</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ticket.ticket_id}}</td>
+                <td>{{ticket.user_name}}</td>
+                <td>{{ticket.ticket_state}}</td>
+                <td>
+                    {% if ticket.ticket_state == 0 %}
+                    <form class="form-inline my-2 my-lg-0 p-2" action="/setticketstate/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="ticket_id" value="{{ ticket.ticket_id }}">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerrar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'base.html' %}
+</body>
